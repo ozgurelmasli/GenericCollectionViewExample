@@ -63,9 +63,9 @@ class AuthorCell : UICollectionViewCell  , CellConfig{
     
     func configure<T>(data: T) where T : Decodable, T : Encodable {
         //MARK:->Set Data 2 UI
-        guard let data = data as? AuthorModel else {return}
-        self.nameSurnameLabel.text = data.name  + " " + data.surname
-        self.aboutLabel.text = data.about
-        self.dateLabel.text = "\(data.date)"
+        guard let data = data as? Datum else {return}
+        self.nameSurnameLabel.text = data.employeeName  + " " + data.employeeAge
+        self.aboutLabel.text = data.employeeSalary
+        self.dateLabel.text = data.id
     }
 }
