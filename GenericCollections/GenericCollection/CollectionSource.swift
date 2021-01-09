@@ -9,17 +9,15 @@ import Foundation
 import UIKit
 
 protocol DataSource {
-    var didSelected : ((Int)->())? { get }
     var numberOfSection : Int  { get set }
     var resuseableIdentifier : String { get set }
 }
 
-class CollectionViewDataSource<C: UICollectionViewCell & CellConfig , D : Codable> :  NSObject , UICollectionViewDataSource , UICollectionViewDelegate , DataSource {
+class CollectionViewDataSource<C: UICollectionViewCell & CellConfig , D : Codable & GenericCollectionProtocol> :  NSObject , UICollectionViewDataSource, DataSource {
     
-    fileprivate var data : [D]?
+    fileprivate var data : D?
     
     var resuseableIdentifier: String
-    var didSelected : ((Int)->())?
     var numberOfSection = 1
     //MARK:-> Private
     init(section : Int = 1 , identfier: String) {
@@ -27,13 +25,13 @@ class CollectionViewDataSource<C: UICollectionViewCell & CellConfig , D : Codabl
         self.resuseableIdentifier = identfier
     }
     
-    func setData(data : [D]){
+    func setData(data : D){
         self.data = data
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let data = data {
-            return data.count
+            return data.numberOfItems()
         }
         return 0
     }
@@ -43,16 +41,20 @@ class CollectionViewDataSource<C: UICollectionViewCell & CellConfig , D : Codabl
                                                             , for: indexPath) as? C else {
             fatalError()
         }
-        if let item = self.data?[indexPath.row] {
-            print(item)
-            cell.configure(data: item)
-        }
+        cell.configure(data: self.data , row: indexPath.row)
         return cell
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.numberOfSection
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.didSelected?(indexPath.row)
-    }
+}
+extension String {
+    func getLabelHeight(width : CGFloat , font : UIFont) ->CGFloat{
+           let tempLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+           tempLabel.numberOfLines = 0
+           tempLabel.text = self
+           tempLabel.font = font
+           tempLabel.sizeToFit()
+           return tempLabel.frame.height
+       }
 }

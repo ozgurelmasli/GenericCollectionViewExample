@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 protocol CellConfig {
-    func configure<T>(data : T) where T:Codable
+    func configure<T>(data : T , row : Int) where T : Codable
 }
 

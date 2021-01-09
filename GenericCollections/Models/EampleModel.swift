@@ -7,15 +7,17 @@
 
 import Foundation
 
+protocol GenericCollectionProtocol {
+    func numberOfItems()->Int
+}
 
 // MARK: - Example
-struct Example: Codable {
+struct Example: Codable , Hashable {
     let status: String
     let data: [Datum]
 }
-
 // MARK: - Datum
-struct Datum: Codable {
+struct Datum: Codable , Hashable {
     let id, employeeName, employeeSalary, employeeAge: String
     let profileImage: String
 
@@ -25,5 +27,19 @@ struct Datum: Codable {
         case employeeSalary = "employee_salary"
         case employeeAge = "employee_age"
         case profileImage = "profile_image"
+    }
+}
+// MARK: Company
+struct Company : Codable {
+    let id , name : String
+    let avarageSalary : Int
+}
+// MARK : UI
+struct ExampleUI : Codable , GenericCollectionProtocol {
+    let data : [Datum]
+    let company : [Company]
+    
+    func numberOfItems() -> Int {
+        return data.count
     }
 }
