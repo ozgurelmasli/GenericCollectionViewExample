@@ -61,9 +61,7 @@ class ViewController: UIViewController {
 //MARK:-> setCollectionView
 extension ViewController {
     private func setCollectionView(){
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 10
+        let flowLayout = UICollectionViewFlowLayout(spacing: 10, scrollDirection: .horizontal)
         self.genericCollection = GenericCollectionView<ExampleUI, AuthorCell>(frame: .zero
                                                                                    , collectionViewLayout: flowLayout
                                                                               , identifier: "identifier"

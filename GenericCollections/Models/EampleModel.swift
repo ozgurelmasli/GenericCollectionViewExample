@@ -29,6 +29,12 @@ struct Datum: Codable , Hashable {
         case profileImage = "profile_image"
     }
 }
+struct CompanyUI : Codable , GenericCollectionProtocol {
+    let data : [Company]
+    func numberOfItems() -> Int {
+        return self.data.count
+    }
+}
 // MARK: Company
 struct Company : Codable {
     let id , name : String

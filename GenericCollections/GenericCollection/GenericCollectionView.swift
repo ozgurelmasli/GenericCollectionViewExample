@@ -8,6 +8,18 @@
 import Foundation
 import UIKit
 
+
+extension UICollectionViewFlowLayout {
+    
+    convenience init(spacing : CGFloat , scrollDirection : UICollectionView.ScrollDirection , itemsize : CGSize? = nil){
+        self.init()
+        self.minimumLineSpacing = spacing
+        self.scrollDirection = scrollDirection
+        if let itemSize = itemsize {self.itemSize = itemSize}
+    }
+    
+}
+
 class GenericCollectionView<T : Codable & GenericCollectionProtocol , C : UICollectionViewCell & CellConfig> : UICollectionView {
     open var maxHeight : ((CGFloat)->())?
     
